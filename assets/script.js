@@ -1,56 +1,67 @@
-$(document).ready(function() {
-//Create HTML elements for the day planner using JQuery 
+$(document).ready(function () {
+    //Create HTML elements for the day planner using JQuery 
 
-//Grab element for date and use moment to get it correct date and use Jquery to display.
+    //Grab element for date and use moment to get it correct date and use Jquery to display.
 
-var currentDateArea = $('#currentDay');
-var currentDate = moment();
-currentDateArea.text(currentDate.format('dddd, MMMM Do'));
+    var currentDateArea = $('#currentDay');
+    var currentDate = moment();
+    currentDateArea.text(currentDate.format('dddd, MMMM Do'));
 });
 
 //Using a for loop to create the schedule from 9am - 5pm. 
 
-for(var i = 9; i < 17; i++){
+for (var i = 9; i < 18; i++) {
 
-//grab elements needed
+    //Setting the time
+    var timeSchedule = i % 12;
 
-var scheduleContainer = $('.container');
+    //Need to add whether it is am or pm
 
-//Create div that has a class of row -> this is outer div
+    //grab elements needed
 
-var rowDiv = $('<div/>').addClass('row');
-scheduleContainer.append(rowDiv);
+    var scheduleContainer = $('.container');
 
-//In that div then create another div with a class of col-md-2
+    //Create div that has a class of row -> this is outer div
 
-var hourDiv = $('<div/>').addClass('col-md-2 hour');
-rowDiv.append(hourDiv);
+    var rowDiv = $('<div/>').addClass('row');
+    scheduleContainer.append(rowDiv);
 
-//create a p tag for the hours in the div
+    //In that div then create another div with a class of col-md-2
 
-var time = $('<p>').addClass('time-display');
-hourDiv.append(time);
+    var hourDiv = $('<div/>').addClass('col-md-2 hour');
+    rowDiv.append(hourDiv);
 
-//Create another div with class of col-md-8
+    //create a p tag for the hours in the div
 
-var inputDiv = $('<div/>').addClass('col-md-8 past');
-rowDiv.append(inputDiv);
+    var time = $('<p>').addClass('time-display');
+    if (timeSchedule <= 12) {
+        time.text(timeSchedule + ' AM');
+    } else {
+        time.text(timeSchedule + 'PM');
+    }
+    if (timeSchedule === 0) { time.text('12 PM') }
+    hourDiv.append(time);
 
-//create a input element for the input of the user in the div
+    //Create another div with class of col-md-8
 
-var inputField = $('<input/>');
-inputField.attr({type: 'text', id: 'text-input', name: 'text'});
-inputDiv.append(inputField);
+    var inputDiv = $('<div/>').addClass('col-md-8 past');
+    rowDiv.append(inputDiv);
+
+    //create a input element for the input of the user in the div
+
+    var inputField = $('<input/>');
+    inputField.attr({ type: 'text', id: 'text-input', name: 'text' });
+    inputDiv.append(inputField);
 
 
-//Create another div with class of col-md-2
-var submitDiv = $('<div/>').addClass('col-md-2 saveBtn');
-rowDiv.append(submitDiv);
+    //Create another div with class of col-md-2
+    var submitDiv = $('<div/>').addClass('col-md-2 saveBtn');
+    rowDiv.append(submitDiv);
 
-//create a i tag that is like an icon that is clickable to save in local storage.
-var submitBtn = $('<i class="far fa-save"></i>');
-submitBtn.attr({id: 'submit-button'});
-submitDiv.append(submitBtn);
+    //create a i tag that is like an icon that is clickable to save in local storage.
+    var submitBtn = $('<i class="far fa-save"></i>');
+    submitBtn.attr({ id: 'submit-button' });
+    submitDiv.append(submitBtn);
 
 
 }
