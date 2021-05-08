@@ -1,109 +1,73 @@
 $(document).ready(function () {
     //Create HTML elements for the day planner using JQuery 
-
-    //Grab element for date and use moment to get it correct date and use Jquery to display.
-
+    //Used moment to get the current date and display it to the page
+    //Used moment to get the current time 
     var currentDateArea = $('#currentDay');
     var currentDate = moment();
     currentDateArea.text(currentDate.format('dddd, MMMM Do'));
     var currentTime = currentDate.format('H') * 1;
 
-    
-
-var inputCounter = 0;
-
-//Using a for loop to create the schedule from 9am - 5pm. 
-
+//Using a for loop to create the schedule from 9am - 5pm
 for (var i = 9; i < 18; i++) {
 
-    //Setting the time
+    //This bring in the time and use the moduelo operator to set the time from 9am - 5pm
     var timeSchedule = i % 12;
 
-    //Need to add whether it is am or pm
-
-    //grab elements needed
-
+    //Grabbing the container element so I can use it to append the created elements to.
     var scheduleContainer = $('.container');
 
-    //Create div that has a class of row -> this is outer div
-
+    //Created div that has a class of row and appended it to the container.
     var rowDiv = $('<div/>').addClass('row');
     scheduleContainer.append(rowDiv);
 
-    //In that div then create another div with a class of col-md-2
-
+    //Created another dic that has a class of col-md-2 and appended it to the row div
     var hourDiv = $('<div/>').addClass('col-md-2 hour');
     rowDiv.append(hourDiv);
 
-    //create a p tag for the hours in the div
-
+    //create a p tag for the hours to be written in.
     var time = $('<p>').addClass('time-display');
+    //Used conditional logic to check if the time and put AM and PM accordingly
     if (i <= 12) {
         time.text(timeSchedule + ' AM');
     } else {
         time.text(timeSchedule + 'PM');
     }
+    //This check if the timeSchedule is 0 then it sets it to noon
     if (timeSchedule === 0) { time.text('12 PM') }
     hourDiv.append(time);
 
-    //Create another div with class of col-md-8
+    //This uses the moment time variable that I created above to check whether the time is past, present or future and adds the according class to the div.
     var screenTime = ' present';
     if(i < currentTime){
     screenTime = ' past'
     }else if(i > currentTime){
     screenTime = ' future'
     }
-    console.log(currentTime);
-    console.log(i);
+
+    //Created another div taht has a class of col-md-8 and appends to the row div also
     var inputDiv = $('<div/>').addClass('col-md-8' + screenTime);
     rowDiv.append(inputDiv);
 
-    //create a input element for the input of the user in the div
-
+    //create a input element for the input of the user the information that they want to be submitted.
     var inputField = $('<input/>');
-    
     inputField.attr({ type: 'text', id: 'text-input-' + i, name: 'text', 'data-list': i});
     inputDiv.append(inputField);
-
-    var tester = $('input[data-list]');
-    var testerCount= tester[inputCounter];
-
-    inputCounter++;
-
-    function tru(e){
-
-    e.preventDefault();
-    console.log(e.target);
-    }
-
-
-    //Use execrise 23
-    //Use data attribute to get the time and buttons together to link together.
-
-    /*
-    console.log(textInputs[inputCounter]);
-    var allInputs = textInputs[inputCounter];
-    */
-    //inputCounter++;
 
     //Create another div with class of col-md-2
     var submitDiv = $('<div/>').addClass('col-md-2 saveBtn');
     rowDiv.append(submitDiv);
 
-    //create a i tag that is like an icon that is clickable to save in local storage.
+    //create a i tag from favCon that is like an icon that is clickable to save in local storage.
     var submitBtn = $('<i class="far fa-save"></i>');
     submitBtn.attr({ id: 'submit-button', 'data-list': i });
     submitBtn.click(function(){
         var currValue = $(this).parent().siblings('div.col-md-8').children().val();
         var dataTime = $(this).attr('data-list');
-        console.log(dataTime);
         localStorage.setItem(dataTime, currValue);
-
     });
     submitDiv.append(submitBtn);
-    var sub = $('i[data-list]');
-   
 }
+    //Grabs the value from localstorage and sets it in the input even if the user refreshes.
     $('#text-input-9').val(localStorage.getItem('9'));
     $('#text-input-10').val(localStorage.getItem('10'));
     $('#text-input-11').val(localStorage.getItem('11'));
@@ -114,31 +78,5 @@ for (var i = 9; i < 18; i++) {
     $('#text-input-16').val(localStorage.getItem('16'));
     $('#text-input-17').val(localStorage.getItem('17'));
 
-
 });
 
-//Save the value to local storage. With refresh it will stay there. Gotta put this in a function so it can be run when the button is clicked. 
-
-
-
-
-//Depending on the time the work schedule will have past, present and future. 
-
-/*
-    getInputVal();
-
-    function inputVal(){
-
-        localStorage.setItem('input-answer', JSON.stringify(textInputs.val()));
-    }
-
-    function getInputVal(){
-        var getVal = localStorage.getItem('input-answer');
-
-        if(getVal != null){
-            textInputs.val(getVal);
-        }else{
-            console.log('no answers');
-        }
-    }
-*/
